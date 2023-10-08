@@ -1,5 +1,6 @@
 import { fetchPixabayImages } from './js/pixabay-api';
 import { Notify } from 'notiflix';
+import { createGalleryMarkup } from './js/templates/gallery-markup';
 
 const refs = {
   searchForm: document.querySelector('#search-form'),
@@ -11,7 +12,7 @@ const refs = {
 let searchQueryValue = '';
 let page = 1;
 
-refs.loadMoreBtn.disabled = true;
+refs.loadMoreBtn.hidden = true;
 
 Notify.init({
   position: 'center-top',
@@ -26,15 +27,22 @@ refs.loadMoreBtn.addEventListener('click', handleLoadMoreClick);
 
 async function handleFormSearchSubmit(event) {
   event.preventDefault();
-  refs.searchBtn.disabled = true;
 
   searchQueryValue = event.currentTarget.elements.searchQuery.value;
+  page = 1;
+
+  if (!searchQueryValue.trim()) {
+    Notify.warning('You should enter something.');
+    return;
+  }
+
+  refs.searchBtn.disabled = true;
 
   try {
     const imagesData = await fetchPixabayImages(searchQueryValue, page);
     refs.galleryContainer.innerHTML = createGalleryMarkup(imagesData.hits);
     refs.searchBtn.disabled = false;
-    refs.loadMoreBtn.disabled = false;
+    refs.loadMoreBtn.hidden = false;
   } catch {
     Notify.failure(
       'Sorry, there are no images matching your search query. Please try again.'
@@ -52,41 +60,13 @@ async function handleLoadMoreClick() {
       createGalleryMarkup(imagesData.hits)
     );
     refs.loadMoreBtn.disabled = false;
+
+    if (page * imagesData.hits.length >= imagesData.totalHits) {
+      refs.loadMoreBtn.disabled = true;
+    }
   } catch {
     Notify.failure(
       'Sorry, there are no images matching your search query. Please try again.'
     );
   }
-}
-
-function createGalleryMarkup(imagesData) {
-  return imagesData.map(createImageMarkup).join();
-}
-
-function createImageMarkup({
-  webformatURL,
-  tags,
-  likes,
-  views,
-  comments,
-  downloads,
-}) {
-  return `
-  <div class="photo-card">
-    <img src="${webformatURL}" alt="${tags}" loading="lazy" width=320 />
-    <div class="info">
-      <p class="info-item">
-        <b>Likes</b><span>${likes}</span>
-      </p>
-      <p class="info-item">
-        <b>Views</b><span>${views}</span>
-      </p>
-      <p class="info-item">
-        <b>Comments</b><span>${comments}</span>
-      </p>
-      <p class="info-item">
-        <b>Downloads</b><span>${downloads}</span>
-      </p>
-    </div>
-  </div>`;
 }
