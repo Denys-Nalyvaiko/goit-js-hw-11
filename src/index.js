@@ -57,6 +57,7 @@ async function handleFormSearchSubmit(event) {
   }
 
   refs.searchBtn.disabled = false;
+  refs.searchForm.reset();
 
   lightbox = new SimpleLightbox('.gallery a');
 }
