@@ -14,7 +14,7 @@ function createImageMarkup({
   return `
   <div class="photo-card">
     <a href="${largeImageURL}">
-      <img src="${webformatURL}" alt="${tags}" loading="lazy" width=320 />
+      <img src="${webformatURL}" alt="${tags}" loading="lazy" width=310 />
     </a>
     <div class="info">
       <p class="info-item">

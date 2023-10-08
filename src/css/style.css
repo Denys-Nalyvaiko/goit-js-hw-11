@@ -1,3 +1,8 @@
+body {
+  background-color: #212121;
+  color: #fafafa;
+}
+
 .gallery {
   display: flex;
   flex-wrap: wrap;
@@ -10,8 +15,11 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  width: 320px;
+  max-width: 320px;
   max-height: 400px;
+  padding: 10px;
+  border: 3px solid #fafafa;
+  box-shadow: 10px 10px 12px -6px #fafafa;
 }
 
 .photo-card img {
@@ -20,7 +28,7 @@
 
 .info {
   display: flex;
-  gap: 12px;
+  gap: 14px;
 }
 
 .info-item {
@@ -29,4 +37,47 @@
   justify-content: center;
   align-items: center;
   gap: 6px;
+}
+
+.search-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.search-form input {
+  font-size: 20px;
+  margin: 15px auto;
+  padding: 8px;
+  border-radius: 5px;
+  background-color: #212121;
+  color: #fafafa;
+  border: 1px solid #fafafa;
+}
+
+.search-form button {
+  font-size: 20px;
+  padding: 10px;
+  min-width: 100px;
+  border-radius: 10px;
+  color: #fafafa;
+  border: 2px solid #fafafa;
+  background-color: #212121;
+  cursor: pointer;
+  transition: color 250ms ease-in-out 50ms, border-color 250ms ease-in-out 50ms,
+    background-color 250ms ease-in-out 50ms;
+}
+
+.search-form button:hover,
+.search-form button:focus {
+  color: #212121;
+  border-color: #212121;
+  background-color: #fafafa;
+}
+
+.search-form button:disabled {
+  background-color: #717171;
+  cursor: not-allowed;
 }
