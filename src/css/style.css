@@ -16,7 +16,6 @@ body {
   justify-content: center;
   align-items: center;
   max-width: 320px;
-  max-height: 400px;
   padding: 10px;
   border: 3px solid #fafafa;
   box-shadow: 10px 10px 12px -6px #fafafa;
@@ -24,6 +23,7 @@ body {
 
 .photo-card img {
   cursor: pointer;
+  max-width: 315px;
 }
 
 .info {
