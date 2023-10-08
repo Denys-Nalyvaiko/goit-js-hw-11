@@ -4,6 +4,7 @@ export function createGalleryMarkup(imagesData) {
 
 function createImageMarkup({
   webformatURL,
+  largeImageURL,
   tags,
   likes,
   views,
@@ -12,7 +13,9 @@ function createImageMarkup({
 }) {
   return `
   <div class="photo-card">
-    <img src="${webformatURL}" alt="${tags}" loading="lazy" width=320 />
+    <a href="${largeImageURL}">
+      <img src="${webformatURL}" alt="${tags}" loading="lazy" width=320 />
+    </a>
     <div class="info">
       <p class="info-item">
         <b>Likes</b><span>${likes}</span>

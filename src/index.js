@@ -1,6 +1,8 @@
 import { fetchPixabayImages } from './js/pixabay-api';
-import { Notify } from 'notiflix';
 import { createGalleryMarkup } from './js/templates/gallery-markup';
+import { Notify } from 'notiflix';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const refs = {
   searchForm: document.querySelector('#search-form'),
@@ -11,6 +13,7 @@ const refs = {
 
 let searchQueryValue = '';
 let page = 1;
+let lightbox = {};
 
 refs.loadMoreBtn.hidden = true;
 
@@ -41,13 +44,16 @@ async function handleFormSearchSubmit(event) {
   try {
     const imagesData = await fetchPixabayImages(searchQueryValue, page);
     refs.galleryContainer.innerHTML = createGalleryMarkup(imagesData.hits);
-    refs.searchBtn.disabled = false;
-    refs.loadMoreBtn.hidden = false;
   } catch {
     Notify.failure(
       'Sorry, there are no images matching your search query. Please try again.'
     );
   }
+
+  refs.searchBtn.disabled = false;
+  refs.loadMoreBtn.hidden = false;
+
+  lightbox = new SimpleLightbox('.gallery a');
 }
 
 async function handleLoadMoreClick() {
@@ -69,4 +75,6 @@ async function handleLoadMoreClick() {
       'Sorry, there are no images matching your search query. Please try again.'
     );
   }
+
+  lightbox.refresh();
 }
